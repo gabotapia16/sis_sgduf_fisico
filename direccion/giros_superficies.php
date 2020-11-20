@@ -20,46 +20,27 @@ include '../conection_bd.php';
 				<table id="tabla_completa" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 					<thead>
 						<tr>
-							<th>No.</th>
-							<th>INGRESO</th>
-							<th>NÚMERO DE EXPEDIENTE</th>
-							<th>PROYECTO</th>
-							<th>NOMBRE COMERCIAL</th>
-							<th>REPRESENTANTE LEGAL</th>
-							<th>NÚMERO DE CONTACTO</th>
-							<th>CÁMARA O ASOCIACIÓN</th>
-							<th>FECHA DE INGRESO DE SOLICITUD</th>
-							<th>FECHA DE INGRESO DE REQUISITOS ESPECÍFICOS</th>
-							<th>IMPACTO</th>
-							<th>GIRO</th>
-							<th>ACTIVIDAD</th>
-							<th>DESCRIPCIÓN</th>
-							<th>MUNICIPIO</th>
-							<th>ETAPA</th>
-							<th>COMENTARIO ETAPA</th>
-							<th>FECHA ÚLTIMO MOVIMIENTO</th>
-							<th>IMPACTO SANITARIO</th>
-							<th>COMERCIAL AUTOMOTRIZ</th>
-							<th>IMPACTO URBANO</th>
-							<th>IMPACTO VIAL</th>
-							<th>IMPACTO AMBIENTAL</th>
-							<th>PROTECCION CIVIL</th>
-							<th>CAEM</th>
-							<th>FORESTAL</th>
-							<th>MOVILIDAD</th>
-							<th>INVERSION</th>
-							<th>EMPLEOS</th>
-							<th>SUPERFICIE TOTAL</th>
-							<th>SUPERFICIE CONSTRUIDA</th>
-							<th>SUPERFICIE EN USO</th>
-							<th>SUPERFICIE PREV. A CONSTRUIR</th>
-							<th>ANTECEDENTES/COMENTARIOS</th>
-							<th>COMENTARIOS OPERACIÓN URBANA</th>
-							<th>ESTADO ACTUAL</th>
-							<th>FECHA ENTREGA</th>
-							<th>NO. DE DUF</th>
-							<th>TIEMPO TRANSCURRIDO PARA PROCEDENCIA</th>
-							<th>TIEMPO TRANSCURRIDO DE PROCEDENCIA A INGRESO DE RE</th>
+							<th>más</th>
+							<th>Giro</th>
+							<th>Actividad</th>
+
+							<th>Superficie Total < 3000</th>
+							<th>Superficie Total = 3000</th>
+							<th>Superficie Total > 3000</th>
+
+							<th>Superficie Construida < 3000</th>
+							<th>Superficie Construida = 3000</th>
+							<th>Superficie Construida > 3000</th>
+
+							<th>Superficie Uso < 3000</th>
+							<th>Superficie Uso = 3000</th>
+							<th>Superficie Uso > 3000</th>
+
+							<th>Superficie Pre. a Construir < 3000</th>
+							<th>Superficie Pre. a Construir = 3000</th>
+							<th>Superficie Pre. a Construir > 3000</th>
+
+							<th>Total de actividades</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -95,50 +76,26 @@ include '../conection_bd.php';
     			responsive: true,
     			dom: 'Bfrtip',
     			ajax: {
-					url: 'tabla_busqueda.php',
+					url: 'tabla_giros_superficies.php',
 		        	type: 'POST'
 				},
 			columns: [
 				{ mData: "mas" },
-				{ mData: "origen_ingreso" },
-				{ mData: "no_expediente" },
-				{ mData: "deno_proyecto" },
-				{ mData: "nombre_propietario" },
-				{ mData: "representante_legl" },
-				{ mData: "tel_propietario" },
-				{ mData: "camara_asociacion" },
-				{ mData: "fecha_ingreso" },
-				{ mData: "fecha_edito_requisitos" },
-				{ mData: "impacto" },
 				{ mData: "giro" },
 				{ mData: "actividad" },
-				{ mData: "descripcion" },
-				{ mData: "municipio_proyecto" },
-				{ mData: "estado_etapa" },
-				{ mData: "comentario_etapa" },
-				{ mData: "fecha_ultimo_movimiento" },
-				{ mData: "estado_sld" },
-				{ mData: "estado_dec" },
-				{ mData: "estado_dum" },
-				{ mData: "estado_vld" },
-				{ mData: "estado_mam" },
-				{ mData: "estado_pcl" },
-				{ mData: "estado_ada" },
-				{ mData: "estado_ftl" },
-				{ mData: "estado_mov" },
-				{ mData: "monto_inversion" },
-				{ mData: "no_emplos_dir" },
-				{ mData: "sfc_total" },
-				{ mData: "sfc_construida" },
-				{ mData: "sfc_uso" },
-				{ mData: "sfc_prevista_const" },
-				{ mData: "antecedentes" },
-				{ mData: "comentarios" },
-				{ mData: "estado_actual" },
-				{ mData: "fecha_entrega" },
-				{ mData: "no_duf" },
-				{ mData: "diferencia_procedencia_1" },
-				{ mData: "diferencia_requisitos_1" }
+				{ mData: "total_menor3000" },
+				{ mData: "total_igual3000" },
+				{ mData: "total_mayor3000" },
+				{ mData: "construida_menor3000" },
+				{ mData: "construida_igual3000" },
+				{ mData: "construida_mayor3000" },
+				{ mData: "uso_menor3000" },
+				{ mData: "uso_igual3000" },
+				{ mData: "uso_mayor3000" },
+				{ mData: "prevista_construir_menor3000" },
+				{ mData: "prevista_construir_igual3000" },
+				{ mData: "prevista_construir_mayor3000" },
+				{ mData: "conteo_actividades" }
 				],
     			language: {
 				        "decimal": "",

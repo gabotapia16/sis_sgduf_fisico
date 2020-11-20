@@ -10,7 +10,7 @@ $acentos = $conection->query("SET NAMES 'utf8'");
 date_default_timezone_set('America/Mexico_City');
 
 $busqueda = mysqli_query($conection, "SELECT pi.estado_etapa, dt.id as id_general, pi.id as id_procedencia, dt.no_caja_tramitacion, dt.id_procedencia, dt.cp_proyecto,  dt.origen_ingreso, dt.no_expediente, dt.folio_solicitud, dt.nombre_propietario, dt.tel_propietario, dt.correo_propietario, dt.representante_legl, dt.tel_rep_legal, dt.correo_rep_legal, dt.deno_proyecto, dt.domicilio_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.giro, dt.actividad_comercial, dt.monto_inversion, dt.tipo_nomeda, dt.no_emplos_dir, dt.no_emplos_ind, pi.estado_prevencion, pi.estado_procencia, pi.estado_etapa, codigo_barras, pi.turnado_etapa2, pi.fec_notificacion_procedencia, dt.fecha_ingreso, dt.materia, dt.giro, dt.descripcion_general, pi.ma_SLD, pi.ma_DEC, pi.ma_MAM, pi.ma_DUM, pi.ma_PCL, pi.ma_VLD, pi.ma_MOV, pi.ma_ADA, pi.ma_FTL, pi.bandera_evaluaciones, pi.fecha_edito_requisitos, pi.fech_modificacion, pi.fecha_confirma_rechaza,  pi.turnado_etapa2,
-	DATE_FORMAT(pi.fecha_edito_requisitos, '%Y-%m-%d') AS fecha_requisitos, pi.fec_expedicion_procedencia
+	DATE_FORMAT(pi.fecha_edito_requisitos, '%Y-%m-%d') AS fecha_requisitos, pi.fec_expedicion_procedencia, dt.sfc_total, dt.sfc_construida,  dt.sfc_prevista_cosnt as sfc_uso, dt.sfc_prevista_uso AS sfc_prevista_const
 FROM datos_generales dt
 INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales
 where pi.conclusion='' and (estado_etapa='confirmado' OR estado_etapa='1' OR estado_etapa='2' OR estado_etapa='3')");
@@ -185,6 +185,12 @@ while($fila=$busqueda->fetch_assoc()){
 	$data[$c]["codigo_barras"] = $fila["codigo_barras"];
 	$data[$c]["turnado_etapa2"] = $fila["turnado_etapa2"];
 	$data[$c]["fecha_ingreso"] = $fila["fecha_ingreso"];
+
+	$data[$c]["sfc_total"] = $fila["sfc_total"];
+	$data[$c]["sfc_construida"] = $fila["sfc_construida"];
+	$data[$c]["sfc_uso"] = $fila["sfc_uso"];
+	$data[$c]["sfc_prevista_const"] = $fila["sfc_prevista_const"];
+
 	$data[$c]["ma_SLD"] = $fila["ma_SLD"];
 	$data[$c]["ma_DEC"] = $fila["ma_DEC"];
 	$data[$c]["ma_MAM"] = $fila["ma_MAM"];
@@ -273,10 +279,10 @@ datos_generales.folio_solicitud_procedente,
 datos_generales.domicilio_proyecto,
 datos_generales.cp_proyecto,
 datos_generales.fecha_ingreso,
-	 datos_generales.actividad, datos_generales.monto_inversion, datos_generales.tipo_nomeda, datos_generales.no_emplos_dir, datos_generales.no_emplos_ind, pi.estado_etapa, wf.estado_etapa1, wf.estado_etapa2, wf.estado_duf, wf.estado_area, datos_generales.folio_solicitud, wf.fecha_notificacion_proc, datos_generales.fecha_ingreso_procedente, pi.ma_SLD, pi.ma_DEC, pi.ma_MAM, pi.ma_DUM, pi.ma_PCL, pi.ma_VLD, pi.ma_MOV, pi.ma_ADA, pi.ma_FTL, DATE_FORMAT(.pi.fec_expedicion_procedencia, '%Y-%m-%d') AS fecha_procedencia
+	 datos_generales.actividad, datos_generales.monto_inversion, datos_generales.tipo_nomeda, datos_generales.no_emplos_dir, datos_generales.no_emplos_ind, pi.estado_etapa, wf.estado_etapa1, wf.estado_etapa2, wf.estado_duf, wf.estado_area, datos_generales.folio_solicitud, wf.fecha_notificacion_proc, datos_generales.fecha_ingreso_procedente, pi.ma_SLD, pi.ma_DEC, pi.ma_MAM, pi.ma_DUM, pi.ma_PCL, pi.ma_VLD, pi.ma_MOV, pi.ma_ADA, pi.ma_FTL, DATE_FORMAT(.pi.fec_expedicion_procedencia, '%Y-%m-%d') AS fecha_procedencia, datos_generales.sfc_total, datos_generales.sfc_construida,  datos_generales.sfc_prevista_cosnt, datos_generales.sfc_prevista_uso
 	 FROM datos_generales INNER JOIN procedencia_integracion pi ON pi.id = datos_generales.id_procedencia
 INNER JOIN workflow wf ON wf.id_datos_generales = datos_generales.id
-WHERE (wf.estado_duf='' or wf.estado_duf='PFO') AND datos_generales.id>1 ");
+WHERE  folio_solicitud_procedente!='' AND (wf.estado_duf='' or wf.estado_duf='PFO') ");
 
 
 while($row=$busqueda_digital->fetch_assoc()){
@@ -451,6 +457,12 @@ while($row=$busqueda_digital->fetch_assoc()){
 	$data[$c]["ma_FTL"] = $row["ma_FTL"];
 	$data[$c]["estado_sld"] = $sld;
 	$data[$c]["estado_dec"] = $dec;
+
+	$data[$c]["sfc_total"] = $row["sfc_total"];
+	$data[$c]["sfc_construida"] = $row["sfc_construida"];
+	$data[$c]["sfc_uso"] = $row["sfc_prevista_uso"];
+	$data[$c]["sfc_prevista_const"] = $row["sfc_prevista_cosnt"];
+
 	$data[$c]["estado_mam"] = $row["ma_MAM"];
 	$data[$c]["estado_dum"] = $row["ma_DUM"];
 	$data[$c]["estado_pcl"] = $row["ma_PCL"];
