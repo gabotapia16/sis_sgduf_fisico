@@ -24,6 +24,8 @@ include '../menu.php';
 						<th>Etapa en la que Inicio Trámite</th>
 						<th>No Ingresó Requisitos Específicos</th>
 						<th>Editar</th>
+                        <th>Continua</th>
+                        <th>Archivo</th>
 						<th>Agregar Evaluaciones</th>
 						<th>Concluir</th>
 						<th>Turnar Etapa3</th>
@@ -276,6 +278,8 @@ include '../menu.php';
 				{ mData: "inicio_etapa" },
 				{ mData: "check" },
 				{ mData: "botonEditar" },
+                { mData: "Continua" },
+                { mData: "URL_Archivo" },
 				{ mData: "botonEvaluaciones" },
 				{ mData: "botonConcluir" },
 				{ mData: "botonTurnar" },

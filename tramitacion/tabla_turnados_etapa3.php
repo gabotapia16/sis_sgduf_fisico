@@ -12,6 +12,8 @@ include '../conection_bd.php';
     pi.ma_ADA,
     pi.ma_FTL,
     pi.usuario_turna_etapa3
+    , dt.Respuesta AS Respuesta, dt.SeleccionRespuesta AS SeleccionR , dt.URLRespuesta AS URLR
+
   FROM datos_generales dt
   INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales
   INNER JOIN usuarios us ON us.ID_USER = pi.usu_modificacion
@@ -109,6 +111,31 @@ if ($fila['ma_FTL']==1) {
     $data[$c]["confirmado_etapa2"] = $fila["confirmado_etapa2"];
     $data[$c]["usuarioTurno"] = $fila["nombreModifico"].' '.$fila['apellidoModifico'];
     $data[$c]["ingreso_requisitos"] = $fila["ingreso_requisitos"];
+
+
+    $var_URL = "https://cofaem.edomex.gob.mx/sis/sgduf_portal/";
+
+    if($fila["Respuesta"] == '1') {
+        if($fila["SeleccionR"] == '1')
+        {
+            $data[$c]["Continua"] ="<button type='button' class='btn btn-success'><i class='fas fa-check-circle'></i></button>";
+            $URL_VARs = substr($fila["URLR"], 4);
+            $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+            $data[$c]["URL_Archivo"] = $Armado_URL;
+        }
+        else
+        {
+            $data[$c]["Continua"] ="<button type='button' class='btn btn-danger'><i class='fas fa-times-circle'></i></button>";
+            $URL_VARs = substr($fila["URLR"], 4);
+            $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+            $data[$c]["URL_Archivo"] = $Armado_URL;
+        }
+    }
+    else
+    {
+        $data[$c]["Continua"] ="En espera";
+        $data[$c]["URL_Archivo"] = "";
+    }
 
 
     $c++;

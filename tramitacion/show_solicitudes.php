@@ -24,6 +24,8 @@ include '../menu.php';
 							<th></th>
 							<th>Confirmar/Rechazar</th>
 							<th>Concluir</th>
+                            <th>Continua</th>
+                            <th>Manifiesto</th>
 							<th>Ingreso</th>
 							<th>No.Expediente</th>
 							<th>No.Folio</th>
@@ -179,6 +181,8 @@ include '../menu.php';
 				{ mData: "mas" },
 				{ mData: "botones" },
 				{ mData: "botonConcluir" },
+                { mData: "Continua" },
+                { mData: "URL_Archivo" },
 				{ mData: "origen_ingreso" },
 				{ mData: "no_expediente" },
 				{ mData: "folio_solicitud" },

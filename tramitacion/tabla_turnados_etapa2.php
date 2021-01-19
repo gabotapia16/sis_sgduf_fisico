@@ -2,7 +2,7 @@
 
 include '../conection_bd.php';
 
- $resultado= mysqli_query($conection, "SELECT dt.id as id_general, pi.id as id_procedencia, us.NOMBRES AS nombreModifico, us.APELLIDO_PATERNO AS apellidoModifico, users.NOMBRES AS nombresConfirmo, users.APELLIDO_PATERNO AS apellidoConfirmo,  dt.no_caja_tramitacion, dt.id_procedencia, dt.cp_proyecto,  dt.origen_ingreso, dt.no_expediente, dt.folio_solicitud, dt.nombre_propietario, dt.tel_propietario, dt.correo_propietario, dt.representante_legl, dt.tel_rep_legal, dt.correo_rep_legal, dt.deno_proyecto, dt.domicilio_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.giro, dt.actividad_comercial, dt.descripcion_general, dt.monto_inversion, dt.tipo_nomeda, dt.no_emplos_dir, dt.no_emplos_ind, pi.estado_prevencion, pi.estado_procencia, pi.estado_etapa, pi.fec_notificacion_procedencia, pi.confirmado_etapa2, pi.turnado_etapa2, pi.etapa_inicio, ingreso_requisitos, dt.materia, dt.giro , dt.descripcion_general, dt.fecha_ingreso, DATE_FORMAT(pi.fecha_edito_requisitos, '%Y-%m-%d') AS fecha_requisitos FROM datos_generales dt INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales INNER JOIN usuarios us ON us.ID_USER = pi.usu_modificacion INNER JOIN usuarios users ON users.ID_USER = pi.usu_confirmaE2 where pi.estado_etapa=3 AND pi.conclusion=''");
+ $resultado= mysqli_query($conection, "SELECT dt.id as id_general, pi.id as id_procedencia, us.NOMBRES AS nombreModifico, us.APELLIDO_PATERNO AS apellidoModifico, users.NOMBRES AS nombresConfirmo, users.APELLIDO_PATERNO AS apellidoConfirmo,  dt.no_caja_tramitacion, dt.id_procedencia, dt.cp_proyecto,  dt.origen_ingreso, dt.no_expediente, dt.folio_solicitud, dt.nombre_propietario, dt.tel_propietario, dt.correo_propietario, dt.representante_legl, dt.tel_rep_legal, dt.correo_rep_legal, dt.deno_proyecto, dt.domicilio_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.giro, dt.actividad_comercial, dt.descripcion_general, dt.monto_inversion, dt.tipo_nomeda, dt.no_emplos_dir, dt.no_emplos_ind, pi.estado_prevencion, pi.estado_procencia, pi.estado_etapa, pi.fec_notificacion_procedencia, pi.confirmado_etapa2, pi.turnado_etapa2, pi.etapa_inicio, ingreso_requisitos, dt.materia, dt.giro , dt.descripcion_general, dt.fecha_ingreso, DATE_FORMAT(pi.fecha_edito_requisitos, '%Y-%m-%d') AS fecha_requisitos, dt.Respuesta AS Respuesta, dt.SeleccionRespuesta AS SeleccionR, dt.URLRespuesta AS URLR  FROM datos_generales dt INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales INNER JOIN usuarios us ON us.ID_USER = pi.usu_modificacion INNER JOIN usuarios users ON users.ID_USER = pi.usu_confirmaE2 where pi.estado_etapa=3 AND pi.conclusion=''");
 
 $c=0;
 $inicio_etapa='';
@@ -67,7 +67,30 @@ while($fila=$resultado->fetch_assoc()){
     $data[$c]["descripcion_general"] = $fila["descripcion_general"];
     $data[$c]["fecha_ingreso"] = $fila["fecha_ingreso"];
     $data[$c]["fecha_edito_requisitos"] = $fila["fecha_requisitos"];
-    
+
+    $var_URL = "https://cofaem.edomex.gob.mx/sis/sgduf_portal/";
+
+    if($fila["Respuesta"] == '1') {
+        if($fila["SeleccionR"] == '1')
+        {
+            $data[$c]["Continua"] ="<button type='button' class='btn btn-success'><i class='fas fa-check-circle'></i></button>";
+            $URL_VARs = substr($fila["URLR"], 4);
+            $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+            $data[$c]["URL_Archivo"] = $Armado_URL;
+        }
+        else
+        {
+            $data[$c]["Continua"] ="<button type='button' class='btn btn-danger'><i class='fas fa-times-circle'></i></button>";
+            $URL_VARs = substr($fila["URLR"], 4);
+            $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+            $data[$c]["URL_Archivo"] = $Armado_URL;
+        }
+    }
+    else
+    {
+        $data[$c]["Continua"] ="En espera";
+        $data[$c]["URL_Archivo"] = "";
+    }
 
 
     $c++;

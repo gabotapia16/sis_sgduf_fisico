@@ -3,7 +3,7 @@
 //include 'conection_bd.php';
 include '../conection_bd.php';
 
-	$sql = mysqli_query($conection, "SELECT dt.id as id_general, pi.id as id_procedencia, us.NOMBRES, us.APELLIDO_PATERNO, dt.no_caja, dt.id_procedencia, dt.cp_proyecto,  dt.origen_ingreso, dt.no_expediente, dt.folio_solicitud, dt.nombre_propietario, dt.tel_propietario, dt.correo_propietario, dt.representante_legl, dt.tel_rep_legal, dt.correo_rep_legal, dt.deno_proyecto, dt.domicilio_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.giro, dt.actividad_comercial, dt.descripcion_general, dt.monto_inversion, dt.tipo_nomeda, dt.no_emplos_dir, dt.no_emplos_ind, pi.estado_prevencion, pi.estado_procencia, pi.estado_etapa, pi.fec_notificacion_procedencia, pi.fec_expedicion_prevencion, pi.fec_expedicion_procedencia FROM datos_generales dt INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales INNER JOIN usuarios us ON us.ID_USER = dt.usu_captura where pi.estado_etapa=1 OR pi.estado_etapa=2 OR pi.estado_etapa=3");
+	$sql = mysqli_query($conection, "SELECT dt.id as id_general, pi.id as id_procedencia, us.NOMBRES, us.APELLIDO_PATERNO, dt.no_caja, dt.id_procedencia, dt.cp_proyecto,  dt.origen_ingreso, dt.no_expediente, dt.folio_solicitud, dt.nombre_propietario, dt.tel_propietario, dt.correo_propietario, dt.representante_legl, dt.tel_rep_legal, dt.correo_rep_legal, dt.deno_proyecto, dt.domicilio_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.giro, dt.actividad_comercial, dt.descripcion_general, dt.monto_inversion, dt.tipo_nomeda, dt.no_emplos_dir, dt.no_emplos_ind, pi.estado_prevencion, pi.estado_procencia, pi.estado_etapa, pi.fec_notificacion_procedencia, pi.fec_expedicion_prevencion, pi.fec_expedicion_procedencia, dt.Respuesta AS Respuesta, dt.SeleccionRespuesta AS SeleccionR, dt.URLRespuesta AS URLR FROM datos_generales dt INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales INNER JOIN usuarios us ON us.ID_USER = dt.usu_captura where pi.estado_etapa=1 OR pi.estado_etapa=2 OR pi.estado_etapa=3");
 
 $tabla_usuarios_expediente = mysqli_query($conection, "SELECT us.NOMBRES, us.APELLIDO_PATERNO, dt.no_caja, dt.no_expediente, dt.nombre_propietario, dt.deno_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.domicilio_proyecto FROM datos_generales dt INNER JOIN usuarios us ON us.ID_USER = dt.usu_captura ORDER BY dt.no_caja");
 
@@ -30,6 +30,8 @@ $tabla_usuarios_expediente = mysqli_query($conection, "SELECT us.NOMBRES, us.APE
 				<thead>
 					<tr>
 						<th>Estado General</th>
+                        <th>Continua</th>
+                        <th>Archivo</th>
 						<th>Volver a Turnar</th>
 						<th>Caja</th>
 						<th>Ingreso</th>
@@ -71,6 +73,51 @@ $tabla_usuarios_expediente = mysqli_query($conection, "SELECT us.NOMBRES, us.APE
 							} ?>
 
 							 </td>
+
+                            <td>
+                                <?php
+                                if($fila['Respuesta'] == '1')
+                                {
+                                    switch ($fila['SeleccionR']) {
+                                        case '1':
+                                            echo "<button type='button' class='btn btn-success'><i class='fas fa-check-circle'></i></button>";
+                                            break;
+                                        default:
+                                            echo "<button type='button' class='btn btn-danger'><i class='fas fa-times-circle'></i></button>";
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    echo 'En espera';
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                $var_URL = "https://cofaem.edomex.gob.mx/sis/sgduf_portal/";
+
+                                if($fila["Respuesta"] == '1') {
+                                    if($fila["SeleccionR"] == '1')
+                                    {
+                                        $URL_VARs = substr($fila["URLR"], 4);
+                                        $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+                                        echo $Armado_URL;
+                                    }
+                                    else
+                                    {
+                                        $URL_VARs = substr($fila["URLR"], 4);
+                                        $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+                                        echo $Armado_URL;
+                                    }
+                                }
+                                else
+                                {
+                                    echo "";
+                                }
+
+                                ?>
+                            </td>
 							 <td>
 							 	<?php if ($fila['estado_etapa']==2): ?>
 							 		<button class="btn btn-primary" onclick="aprobar(<?php echo $fila['id_general'];?>, <?php echo $fila['id_procedencia'] ?>);"><i class="fas fa-file-export"></i></button>

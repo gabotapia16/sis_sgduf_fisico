@@ -23,6 +23,8 @@ include '../conection_bd.php';
 							<!--<th>Evaluaciones</th>-->
 							<th></th>
 							<th>Editar</th>
+                            <th>Continua</th>
+                            <th>Archivo</th>
 							<th>Concluir</th>
 							<th>Ingreso</th>
 							<th>No.Expediente</th>
@@ -194,6 +196,8 @@ include '../conection_bd.php';
 			columns: [
 				{ mData: "mas" },
 				{ mData: "botonEditar" },
+                { mData: "Continua" },
+                { mData: "URL_Archivo" },
 				{ mData: "botonConcluir" },
 				{ mData: "origen_ingreso" },
 				{ mData: "no_expediente" },

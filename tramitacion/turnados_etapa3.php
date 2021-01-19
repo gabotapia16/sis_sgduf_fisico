@@ -23,6 +23,8 @@ include '../menu.php';
 					<tr>
 						<th>Estado</th>
 						<th>Motivo Rechazo</th>
+                        <th>Continua</th>
+                        <th>Archivo</th>
 						<th>Turnar / Modificar</th>
 						<th>Evaluaciones</th>
 						<th>Ingreso</th>
@@ -162,6 +164,8 @@ include '../menu.php';
 			columns: [
 				{ mData: "estado_confirmacion" },
 				{ mData: "motivo_rechazo" },
+                { mData: "Continua" },
+                { mData: "URL_Archivo" },
 				{ mData: "botonTurnar" },
 				{ mData: "evaluaciones" },
 				{ mData: "origen_ingreso" },

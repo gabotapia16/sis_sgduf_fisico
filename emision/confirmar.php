@@ -23,6 +23,8 @@ include '../menu.php';
 							<!--<th>Evaluaciones</th>-->
 							<th></th>
 							<th>Confirmar/Rechazar</th>
+                            <th>Continua</th>
+                            <th>Archivo</th>
 							<th>Ingreso</th>
 							<th>No.Expediente</th>
 							<th>No.Folio</th>
@@ -118,6 +120,8 @@ include '../menu.php';
 			columns: [
 				{ mData: "mas" },
 				{ mData: "botones" },
+                { mData: "Continua" },
+                { mData: "URL_Archivo" },
 				{ mData: "origen_ingreso" },
 				{ mData: "no_expediente" },
 				{ mData: "folio_solicitud" },

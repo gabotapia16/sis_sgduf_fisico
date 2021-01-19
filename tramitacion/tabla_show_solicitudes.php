@@ -1,7 +1,7 @@
 <?php
 include '../conection_bd.php';
 
-$resultado = mysqli_query($conection, "SELECT dt.id as id_general, pi.id as id_procedencia, us.NOMBRES, us.APELLIDO_PATERNO, dt.no_caja_tramitacion, dt.id_procedencia, dt.cp_proyecto,  dt.origen_ingreso, dt.no_expediente, dt.folio_solicitud, dt.nombre_propietario, dt.tel_propietario, dt.correo_propietario, dt.representante_legl, dt.tel_rep_legal, dt.correo_rep_legal, dt.deno_proyecto, dt.domicilio_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.giro, dt.actividad_comercial, dt.descripcion_general, dt.monto_inversion, dt.tipo_nomeda, dt.no_emplos_dir, dt.no_emplos_ind, pi.estado_prevencion, pi.estado_procencia, pi.estado_etapa, codigo_barras, pi.turnado_etapa2, pi.fec_notificacion_procedencia FROM datos_generales dt INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales INNER JOIN usuarios us ON us.ID_USER = dt.usu_captura where pi.estado_etapa=1");
+$resultado = mysqli_query($conection, "SELECT dt.id as id_general, pi.id as id_procedencia, us.NOMBRES, us.APELLIDO_PATERNO, dt.no_caja_tramitacion, dt.id_procedencia, dt.cp_proyecto,  dt.origen_ingreso, dt.no_expediente, dt.folio_solicitud, dt.nombre_propietario, dt.tel_propietario, dt.correo_propietario, dt.representante_legl, dt.tel_rep_legal, dt.correo_rep_legal, dt.deno_proyecto, dt.domicilio_proyecto, dt.municipio_proyecto, dt.cp_proyecto, dt.giro, dt.actividad_comercial, dt.descripcion_general, dt.monto_inversion, dt.tipo_nomeda, dt.no_emplos_dir, dt.no_emplos_ind, pi.estado_prevencion, pi.estado_procencia, pi.estado_etapa, codigo_barras, pi.turnado_etapa2, pi.fec_notificacion_procedencia, dt.Respuesta AS Respuesta, dt.SeleccionRespuesta AS SeleccionR , dt.URLRespuesta AS URLR  FROM datos_generales dt INNER JOIN procedencia_integracion pi ON dt.id = pi.id_datos_generales INNER JOIN usuarios us ON us.ID_USER = dt.usu_captura where pi.estado_etapa=1");
 
 $c=0;
 
@@ -31,6 +31,32 @@ while($fila=$resultado->fetch_assoc()){
 	$data[$c]["turnado_etapa2"] = $fila["turnado_etapa2"];
 	$data[$c]["id_general"] = $fila["id_general"];
 	$data[$c]["id_procedencia"] = $fila["id_procedencia"];
+
+    $var_URL = "https://cofaem.edomex.gob.mx/sis/sgduf_portal/";
+
+    if($fila["Respuesta"] == '1') {
+        if($fila["SeleccionR"] == '1')
+        {
+            $data[$c]["Continua"] ="<button type='button' class='btn btn-success'><i class='fas fa-check-circle'></i></button>";
+            $URL_VARs = substr($fila["URLR"], 4);
+            $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+            $data[$c]["URL_Archivo"] = $Armado_URL;
+        }
+        else
+        {
+            $data[$c]["Continua"] ="<button type='button' class='btn btn-danger'><i class='fas fa-times-circle'></i></button>";
+            $URL_VARs = substr($fila["URLR"], 4);
+            $Armado_URL = "<a href='" . $var_URL. $URL_VARs . "' id='documento' target='_blank'><i class='far fa-file-pdf fa-2x text-info'></i></a>";
+            $data[$c]["URL_Archivo"] = $Armado_URL;
+        }
+    }
+    else
+    {
+        $data[$c]["Continua"] ="En espera";
+        $data[$c]["URL_Archivo"] = "";
+    }
+
+
 	$c++;
 }
 $results = ["sEcho" => 1,
